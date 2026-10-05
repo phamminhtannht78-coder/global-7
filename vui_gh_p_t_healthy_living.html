@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUI GHÉP TỪ – HEALTHY LIVING</title>
+    <style>
+        /* ==========================================================================
+           PHONG CÁCH GIAO DIỆN & TÙY CHỈNH MÀU SẮC (THEME)
+           Chủ đề: Healthy Living - Xanh lá non, Vàng ấm, Hồng hoa đào & Đỏ nhẹ
+           ========================================================================== */
+        :root {
+            --bg-light: #F4FBF1;
+            --green-primary: #7CB342;
+            --green-dark: #558B2F;
+            --green-light: #C5E1A5;
+            --yellow-warm: #FFD54F;
+            --yellow-dark: #FBC02D;
+            --pink-blossom: #FF80AB;
+            --pink-light: #F8BBD0;
+            --red-accent: #EF5350;
+            --text-dark: #2E3D27;
+            --card-bg: #FFFFFF;
+            --shadow-color: rgba(60, 90, 40, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Fredoka', 'Quicksand', 'Segoe UI', Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(#8BC34A 1.5px, transparent 1.5px),
+                radial-gradient(#8BC34A 1.5px, #F4FBF1 1.5px);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            position: relative;
+        }
+
+        /* Container khung game chính */
+        .game-container {
+            width: 95%;
+            max-width: 900px;
+            min-height: 620px;
+            background: var(--card-bg);
+            border-radius: 28px;
+            box-shadow: 0 16px 40px var(--shadow-color), 0 0 0 8px rgba(255, 255, 255, 0.8);
+            border: 4px solid var(--green-primary);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 15px;
+        }
+
+        /* Nút âm thanh toàn cục */
+        .audio-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--yellow-warm);
+            border: 3px solid var(--yellow-dark);
+            color: var(--text-dark);
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            z-index: 50;
+        }
+
+        .audio-btn:hover {
+            transform: scale(1.1);
+            background: var(--yellow-dark);
+        }
+
+        /* ==========================================================================
+           MÀN HÌNH BẮT ĐẦU (START SCREEN)
+           ========================================================================== */
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            height: 100%;
+            min-height: 580px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .start-title {
+            font-size: 2.8rem;
+            color: var(--green-dark);
+            text-shadow: 3px 3px 0 var(--green-light);
+            margin-bottom: 5px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .start-subtitle {
+            font-size: 1.5rem;
+            color: var(--pink-blossom);
+            font-weight: 700;
+            margin-bottom: 25px;
+            background: #FFF0F5;
+            padding: 6px 20px;
+            border-radius: 20px;
+            border: 2px dashed var(--pink-blossom);
+            display: inline-block;
+        }
+
+        .decor-illustration {
+            width: 100%;
+            max-width: 320px;
+            height: 180px;
+            margin: 10px 0 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Nút bấm cỡ lớn chuẩn cảm ứng */
+        .btn-large {
+            background: linear-gradient(180deg, #9CCC65 0%, #7CB342 100%);
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 800;
+            padding: 16px 54px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 var(--green-dark), 0 12px 20px rgba(0,0,0,0.15);
+            transition: all 0.15s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-large:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 0 var(--green-dark), 0 15px 22px rgba(0,0,0,0.2);
+            background: linear-gradient(180deg, #AED581 0%, #8BC34A 100%);
+        }
+
+        .btn-large:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 var(--green-dark), 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        /* ==========================================================================
+           MÀN HÌNH CHƠI (QUIZ SCREEN)
+           ========================================================================== */
+        .quiz-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: #F1F8E9;
+            border-bottom: 3px solid var(--green-light);
+        }
+
+        .quiz-info-box {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            background: white;
+            padding: 8px 18px;
+            border-radius: 16px;
+            border: 2px solid var(--green-light);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            margin: 0 20px;
+            height: 18px;
+            background: #E0E0E0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--yellow-warm), var(--green-primary));
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .question-card {
+            background: #FAFAFA;
+            border: 3px solid #AED581;
+            border-radius: 20px;
+            padding: 25px 20px;
+            width: 100%;
+            margin: 20px 0 15px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+            line-height: 1.4;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #DCEDC8;
+            border-radius: 18px;
+            padding: 16px 15px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #C5E1A5;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            background: #F1F8E9;
+            border-color: var(--green-primary);
+            transform: translateY(-2px);
+        }
+
+        .option-btn:active:not(.disabled) {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #C5E1A5;
+        }
+
+        .option-prefix {
+            background: var(--yellow-warm);
+            color: var(--text-dark);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        /* Khóa & Phản hồi trạng thái Đáp án */
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.85;
+        }
+
+        .option-btn.correct {
+            background: #E8F5E9 !important;
+            border-color: #4CAF50 !important;
+            color: #1B5E20 !important;
+            box-shadow: 0 4px 0 #2E7D32 !important;
+        }
+
+        .option-btn.correct .option-prefix {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background: #FFEBEE !important;
+            border-color: #EF5350 !important;
+            color: #C62828 !important;
+            box-shadow: 0 4px 0 #B71C1C !important;
+        }
+
+        .option-btn.wrong .option-prefix {
+            background: #EF5350;
+            color: white;
+        }
+
+        /* Vùng hiển thị Phản hồi */
+        .feedback-box {
+            min-height: 48px;
+            margin: 5px 0 15px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5px 15px;
+            border-radius: 12px;
+        }
+
+        .feedback-box.correct-text {
+            color: #2E7D32;
+            background: #E8F5E9;
+            border: 2px solid #A5D6A7;
+        }
+
+        .feedback-box.wrong-text {
+            color: #C62828;
+            background: #FFEBEE;
+            border: 2px solid #EF9A9A;
+        }
+
+        .next-btn {
+            background: linear-gradient(180deg, #FFB74D 0%, #FFA726 100%);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #FB8C00;
+            display: none;
+            margin: 0 auto;
+            transition: all 0.15s ease;
+        }
+
+        .next-btn:hover {
+            background: linear-gradient(180deg, #FFCC80 0%, #FFB74D 100%);
+            transform: translateY(-2px);
+        }
+
+        .next-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #FB8C00;
+        }
+
+        /* ==========================================================================
+           MÀN HÌNH KẾT QUẢ (RESULTS SCREEN)
+           ========================================================================== */
+        .results-title {
+            font-size: 3rem;
+            color: var(--green-dark);
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .score-badge {
+            background: var(--yellow-warm);
+            border: 4px solid var(--yellow-dark);
+            border-radius: 25px;
+            padding: 15px 35px;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin: 15px 0;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        }
+
+        .stats-grid {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0 25px;
+        }
+
+        .stat-card {
+            background: #F1F8E9;
+            border: 2px solid #C5E1A5;
+            padding: 12px 24px;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .stat-card.correct-stat { color: #2E7D32; }
+        .stat-card.wrong-stat { color: #C62828; }
+
+        .evaluation-text {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--pink-blossom);
+            max-width: 600px;
+            margin-bottom: 30px;
+            background: #FFF0F5;
+            padding: 15px 25px;
+            border-radius: 20px;
+            border: 2px dashed var(--pink-blossom);
+            line-height: 1.4;
+        }
+
+        /* Canvas hiệu ứng hạt mừng chiến thắng */
+        #effects-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Responsive linh hoạt cho máy tính bảng và thiết bị nhỏ */
+        @media (max-width: 768px) {
+            .start-title { font-size: 2.1rem; }
+            .start-subtitle { font-size: 1.2rem; }
+            .options-grid { grid-template-columns: 1fr; gap: 10px; }
+            .question-card { font-size: 1.25rem; padding: 18px 15px; }
+            .option-btn { font-size: 1.1rem; padding: 12px 12px; }
+            .btn-large { font-size: 1.5rem; padding: 14px 40px; }
+            .score-badge { font-size: 1.8rem; padding: 10px 25px; }
+            .stats-grid { gap: 10px; }
+            .stat-card { font-size: 1rem; padding: 10px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas dành riêng cho hiệu ứng hạt lá & hoa -->
+    <canvas id="effects-canvas"></canvas>
+
+    <div class="game-container">
+        <!-- Nút bật/tắt Âm thanh toàn cục -->
+        <button class="audio-btn" id="toggle-audio-btn" title="Bật/Tắt Âm Thanh">🔊</button>
+
+        <!-- ==========================================================================
+           1. MÀN HÌNH BẮT ĐẦU (START SCREEN)
+           ========================================================================== -->
+        <div class="screen active" id="start-screen">
+            <h1 class="start-title">VUI GHÉP TỪ – HEALTHY LIVING</h1>
+            <div class="start-subtitle">Tiếng Anh – Word Match Quiz</div>
+
+            <div class="decor-illustration">
+                <!-- Hình SVG minh họa tập thể dục & lối sống lành mạnh -->
+                <svg width="280" height="160" viewBox="0 0 280 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Công viên / Cỏ -->
+                    <path d="M10 140 C80 120, 200 120, 270 140 L270 160 L10 160 Z" fill="#C5E1A5"/>
+                    <path d="M0 145 C90 135, 190 135, 280 145 L280 160 L0 160 Z" fill="#7CB342"/>
+                    <!-- Cây cối -->
+                    <circle cx="40" cy="110" r="25" fill="#8BC34A"/>
+                    <rect x="36" y="125" width="8" height="20" fill="#795548"/>
+                    <circle cx="240" cy="105" r="30" fill="#9CCC65"/>
+                    <rect x="235" y="120" width="10" height="25" fill="#795548"/>
+                    <!-- Táo lành mạnh -->
+                    <circle cx="85" cy="130" r="12" fill="#EF5350"/>
+                    <path d="M85 118 Q88 112 92 114" stroke="#558B2F" stroke-width="2"/>
+                    <!-- Nhân vật chạy bộ tập thể dục (Hoạt hình dễ thương) -->
+                    <circle cx="140" cy="65" r="16" fill="#FFCC80"/> <!-- Đầu -->
+                    <path d="M140 81 L140 115" stroke="#42A5F5" stroke-width="10" stroke-linecap="round"/> <!-- Áo -->
+                    <path d="M140 115 L125 140 M140 115 L155 138" stroke="#5C6BC0" stroke-width="8" stroke-linecap="round"/> <!-- Quần/Chân -->
+                    <path d="M140 90 L120 75 M140 90 L160 100" stroke="#FFCC80" stroke-width="6" stroke-linecap="round"/> <!-- Tay -->
+                    <!-- Bông hoa -->
+                    <circle cx="195" cy="138" r="6" fill="#FF80AB"/>
+                    <circle cx="195" cy="138" r="2" fill="#FFD54F"/>
+                </svg>
+            </div>
+
+            <button class="btn-large" id="start-btn">START</button>
+        </div>
+
+        <!-- ==========================================================================
+           2. MÀN HÌNH CHƠI (QUIZ SCREEN)
+           ========================================================================== -->
+        <div class="screen" id="quiz-screen">
+            <div class="quiz-header">
+                <div class="quiz-info-box" id="question-tracker">Câu 1/15</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <div class="quiz-info-box" id="score-tracker">Điểm: 0</div>
+            </div>
+
+            <div style="width: 100%; max-width: 750px; padding: 0 10px;">
+                <div class="question-card" id="question-text">
+                    Nội dung câu hỏi hiển thị tại đây...
+                </div>
+
+                <div class="options-grid" id="options-container">
+                    <!-- 4 Nút đáp án A, B, C, D sinh ra bằng JavaScript -->
+                </div>
+
+                <div class="feedback-box" id="feedback-box"></div>
+
+                <button class="next-btn" id="next-btn">Next ➔</button>
+            </div>
+        </div>
+
+        <!-- ==========================================================================
+           3. MÀN HÌNH KẾT QUẢ (RESULTS SCREEN)
+           ========================================================================== -->
+        <div class="screen" id="results-screen">
+            <h1 class="results-title">Finished! 🎉</h1>
+            
+            <div class="score-badge" id="final-score">
+                150 / 150 Điểm
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card correct-stat" id="stat-correct">
+                    ✅ ĐÚNG: 15
+                </div>
+                <div class="stat-card wrong-stat" id="stat-wrong">
+                    ❌ SAI: 0
+                </div>
+            </div>
+
+            <div class="evaluation-text" id="evaluation-text">
+                Excellent! You are a master of healthy living word matching!
+            </div>
+
+            <button class="btn-large" id="play-again-btn">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           DỮ LIỆU CÂU HỎI – GIÁO VIÊN CÓ THỂ CHỈNH SỬA TẠI ĐÂY
+           Giáo viên có thể thêm, bớt hoặc thay đổi câu hỏi, các phương án và đáp án.
+           - question: Nội dung câu hỏi
+           - options: Danh sách 4 lựa chọn [A, B, C, D]
+           - answer: Chỉ số đáp án đúng (0 = A, 1 = B, 2 = C, 3 = D)
+           ========================================================================== */
+        const QUIZ_DATA = [
+            {
+                question: "Câu 1. You should _______ plenty of water every day.",
+                options: ["do", "drink", "play", "make"],
+                answer: 1 // B. drink
+            },
+            {
+                question: "Câu 2. You should _______ your teeth twice a day.",
+                options: ["brush", "wash", "take", "make"],
+                answer: 0 // A. brush
+            },
+            {
+                question: "Câu 3. We should eat more _______ and vegetables.",
+                options: ["exercises", "fruits", "sleep", "water"],
+                answer: 1 // B. fruits
+            },
+            {
+                question: "Câu 4. Getting enough _______ helps you stay healthy.",
+                options: ["exercise", "sleep", "sugar", "junk food"],
+                answer: 1 // B. sleep
+            },
+            {
+                question: "Câu 5. You should _______ your hands before eating.",
+                options: ["play", "make", "wash", "take"],
+                answer: 2 // C. wash
+            },
+            {
+                question: "Câu 6. Doing regular _______ can help you keep fit.",
+                options: ["exercise", "homework", "medicine", "pollution"],
+                answer: 0 // A. exercise
+            },
+            {
+                question: "Câu 7. You should eat a _______ diet with different kinds of food.",
+                options: ["noisy", "balanced", "dangerous", "boring"],
+                answer: 1 // B. balanced
+            },
+            {
+                question: "Câu 8. Eating too much _______ food can be bad for your health.",
+                options: ["fresh", "nutritious", "junk", "healthy"],
+                answer: 2 // C. junk
+            },
+            {
+                question: "Câu 9. We should eat foods that are rich _______ vitamins and minerals.",
+                options: ["at", "on", "in", "for"],
+                answer: 2 // C. in
+            },
+            {
+                question: "Câu 10. You should _______ late at night because your body needs enough rest.",
+                options: ["stay up", "get on", "take off", "look up"],
+                answer: 0 // A. stay up
+            },
+            {
+                question: "Câu 11. Which phrase means “tập thể dục thường xuyên”?",
+                options: ["make regular exercise", "do regular exercise", "take regular exercise", "play regular exercise"],
+                answer: 1 // B. do regular exercise
+            },
+            {
+                question: "Câu 12. If you want to stay healthy, you should _______ sugary drinks.",
+                options: ["cut down on", "look forward to", "get on with", "take care"],
+                answer: 0 // A. cut down on
+            },
+            {
+                question: "Câu 13. Which combination is correct?",
+                options: ["get enough sleep", "do enough sleep", "make enough sleep", "take enough sleep"],
+                answer: 0 // A. get enough sleep
+            },
+            {
+                question: "Câu 14. You can improve your health by _______ a healthy lifestyle.",
+                options: ["following", "making", "doing", "playing"],
+                answer: 0 // A. following
+            },
+            {
+                question: "Câu 15. Which sentence contains the correct healthy-living collocations?",
+                options: [
+                    "Do exercise, drink water and get enough sleep.",
+                    "Make exercise, eat water and do enough sleep.",
+                    "Play exercise, make water and take enough sleep.",
+                    "Take exercise, do water and make enough sleep."
+                ],
+                answer: 0 // A. Do exercise...
+            }
+        ];
+
+        /* Danh sách lời khen ngợi ngẫu nhiên khi học sinh chọn ĐÚNG */
+        const PRAISE_MESSAGES = [
+            "Exactly!",
+            "Well-done!",
+            "Excellent!",
+            "You are really good at word matching!"
+        ];
+
+        /* ==========================================================================
+           HỆ THỐNG ÂM THANH NỘI BỘ (WEB AUDIO API)
+           Không cần tải file bên ngoài - Tự động tạo âm thanh bằng tần số sóng!
+           ========================================================================== */
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.isMuted = false;
+                this.bgOscillator = null;
+                this.bgGain = null;
+                this.isPlayingBg = false;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            toggleMute() {
+                this.isMuted = !this.isMuted;
+                if (this.bgGain) {
+                    this.bgGain.gain.value = this.isMuted ? 0 : 0.05;
+                }
+                return this.isMuted;
+            }
+
+            // Âm thanh khi click nút
+            playClick() {
+                if (this.isMuted) return;
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.08);
+            }
+
+            // Âm thanh khi trả lời ĐÚNG (Tiếng chuông ngân vui tươi)
+            playCorrect() {
+                if (this.isMuted) return;
+                this.init();
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.08);
+                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime + idx * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.08 + 0.3);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(this.ctx.currentTime + idx * 0.08);
+                    osc.stop(this.ctx.currentTime + idx * 0.08 + 0.3);
+                });
+            }
+
+            // Âm thanh khi trả lời SAI (Âm trầm nhẹ nhàng, không gây tiêu cực)
+            playWrong() {
+                if (this.isMuted) return;
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(220, this.ctx.currentTime); // A3
+                osc.frequency.exponentialRampToValueAtTime(130, this.ctx.currentTime + 0.25);
+                gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.25);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.25);
+            }
+
+            // Âm thanh ăn mừng hoàn tất Game
+            playFanfare() {
+                if (this.isMuted) return;
+                this.init();
+                const melody = [
+                    { f: 523.25, d: 0.15 }, { f: 659.25, d: 0.15 }, { f: 783.99, d: 0.15 },
+                    { f: 1046.50, d: 0.4 }
+                ];
+                let time = this.ctx.currentTime;
+                melody.forEach(note => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(note.f, time);
+                    gain.gain.setValueAtTime(0.25, time);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + note.d);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(time);
+                    osc.stop(time + note.d);
+                    time += note.d + 0.05;
+                });
+            }
+
+            // Nhạc nền nhẹ nhàng tạo giai điệu tươi sáng
+            startBackgroundMusic() {
+                if (this.isPlayingBg) return;
+                this.init();
+                this.isPlayingBg = true;
+                
+                const notes = [261.63, 329.63, 392.00, 329.63, 349.23, 440.00, 392.00, 329.63];
+                let noteIndex = 0;
+
+                const playNextNote = () => {
+                    if (!this.isPlayingBg) return;
+                    if (!this.isMuted) {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(notes[noteIndex], this.ctx.currentTime);
+                        gain.gain.setValueAtTime(0.02, this.ctx.currentTime); // Nhạc nền rất dịu nhẹ
+                        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start();
+                        osc.stop(this.ctx.currentTime + 0.4);
+                    }
+                    noteIndex = (noteIndex + 1) % notes.length;
+                    setTimeout(playNextNote, 500);
+                };
+
+                playNextNote();
+            }
+        }
+
+        const sound = new SoundEngine();
+
+        /* ==========================================================================
+           HIỆU ỨNG HẠT LÁ, HOA & NGÔI SAO MỪNG CHIẾN THẮNG
+           ========================================================================== */
+        const canvas = document.getElementById('effects-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
+            canvas.height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, type) {
+                this.x = x;
+                this.y = y;
+                this.type = type; // 'star', 'leaf', 'flower'
+                this.size = Math.random() * 12 + 8;
+                this.speedX = (Math.random() - 0.5) * 6;
+                this.speedY = (Math.random() - 0.5) * 6 - 2;
+                this.color = ['#8BC34A', '#FFD54F', '#FF80AB', '#4FC3F7'][Math.floor(Math.random() * 4)];
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.1;
+                this.life = 1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.speedY += 0.1; // Trọng lực nhẹ
+                this.rotation += this.rotSpeed;
+                this.life -= 0.015;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = Math.max(0, this.life);
+                ctx.fillStyle = this.color;
+
+                if (this.type === 'leaf') {
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, this.size, this.size / 2, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.type === 'flower') {
+                    ctx.beginPath();
+                    for (let i = 0; i < 5; i++) {
+                        ctx.arc(Math.cos(i * 1.25) * 6, Math.sin(i * 1.25) * 6, this.size / 2, 0, Math.PI * 2);
+                    }
+                    ctx.fill();
+                } else { // Star
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        function triggerParticles(x, y, count = 25) {
+            const types = ['leaf', 'flower', 'star'];
+            for (let i = 0; i < count; i++) {
+                const type = types[Math.floor(Math.random() * types.length)];
+                particles.push(new Particle(x, y, type));
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        /* ==========================================================================
+           LOGIC QUẢN LÝ GAME & TRẠNG THÁI
+           ========================================================================== */
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctAnswersCount = 0;
+        let wrongAnswersCount = 0;
+        let isAnswered = false;
+
+        // DOM Elements
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultsScreen = document.getElementById('results-screen');
+
+        const startBtn = document.getElementById('start-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const playAgainBtn = document.getElementById('play-again-btn');
+        const toggleAudioBtn = document.getElementById('toggle-audio-btn');
+
+        const questionTracker = document.getElementById('question-tracker');
+        const scoreTracker = document.getElementById('score-tracker');
+        const progressBar = document.getElementById('progress-bar');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackBox = document.getElementById('feedback-box');
+
+        const finalScore = document.getElementById('final-score');
+        const statCorrect = document.getElementById('stat-correct');
+        const statWrong = document.getElementById('stat-wrong');
+        const evaluationText = document.getElementById('evaluation-text');
+
+        // Chuyển đổi màn hình
+        function showScreen(screen) {
+            startScreen.classList.remove('active');
+            quizScreen.classList.remove('active');
+            resultsScreen.classList.remove('active');
+            screen.classList.add('active');
+        }
+
+        // Bắt đầu game
+        function startGame() {
+            sound.playClick();
+            sound.startBackgroundMusic();
+            currentQuestionIndex = 0;
+            score = 0;
+            correctAnswersCount = 0;
+            wrongAnswersCount = 0;
+            showScreen(quizScreen);
+            loadQuestion();
+        }
+
+        // Tải câu hỏi hiện tại
+        function loadQuestion() {
+            isAnswered = false;
+            nextBtn.style.display = 'none';
+            feedbackBox.className = 'feedback-box';
+            feedbackBox.innerHTML = '';
+
+            const qData = QUIZ_DATA[currentQuestionIndex];
+
+            // Cập nhật giao diện tiến trình
+            questionTracker.textContent = `Câu ${currentQuestionIndex + 1}/${QUIZ_DATA.length}`;
+            scoreTracker.textContent = `Điểm: ${score}`;
+            const progressPercent = ((currentQuestionIndex) / QUIZ_DATA.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+
+            questionText.textContent = qData.question;
+
+            // Xóa đáp án cũ & Tạo 4 đáp án mới
+            optionsContainer.innerHTML = '';
+            const prefixes = ['A', 'B', 'C', 'D'];
+
+            qData.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `
+                    <span class="option-prefix">${prefixes[idx]}</span>
+                    <span>${optText}</span>
+                `;
+                btn.addEventListener('click', (e) => handleSelectOption(idx, btn, e));
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Xử lý khi học sinh chọn đáp án
+        function handleSelectOption(selectedIndex, selectedBtn, event) {
+            if (isAnswered) return; // Khóa không cho bấm nhiều lần
+            isAnswered = true;
+
+            const qData = QUIZ_DATA[currentQuestionIndex];
+            const allOptionBtns = optionsContainer.querySelectorAll('.option-btn');
+
+            // Khóa tất cả các nút đáp án
+            allOptionBtns.forEach(btn => btn.classList.add('disabled'));
+
+            if (selectedIndex === qData.answer) {
+                // Trả lời ĐÚNG
+                selectedBtn.classList.add('correct');
+                score += 10;
+                correctAnswersCount++;
+                sound.playCorrect();
+
+                // Lấy lời khen ngợi ngẫu nhiên
+                const praise = PRAISE_MESSAGES[Math.floor(Math.random() * PRAISE_MESSAGES.length)];
+                feedbackBox.textContent = `✓ ${praise}`;
+                feedbackBox.classList.add('correct-text');
+
+                // Hiệu ứng hạt bắn ra từ vị trí bấm
+                const rect = selectedBtn.getBoundingClientRect();
+                const containerRect = document.querySelector('.game-container').getBoundingClientRect();
+                triggerParticles(
+                    rect.left + rect.width / 2 - containerRect.left,
+                    rect.top + rect.height / 2 - containerRect.top,
+                    30
+                );
+            } else {
+                // Trả lời SAI
+                selectedBtn.classList.add('wrong');
+                wrongAnswersCount++;
+                sound.playWrong();
+
+                // Làm nổi bật đáp án đúng màu xanh
+                allOptionBtns[qData.answer].classList.add('correct');
+
+                const correctLetter = ['A', 'B', 'C', 'D'][qData.answer];
+                const correctContent = qData.options[qData.answer];
+                feedbackBox.textContent = `Incorrect! The correct answer is: ${correctLetter}. ${correctContent}`;
+                feedbackBox.classList.add('wrong-text');
+            }
+
+            // Cập nhật điểm hiển thị
+            scoreTracker.textContent = `Điểm: ${score}`;
+
+            // Hiển thị nút "Next" hoặc "Show Results" ở câu cuối
+            if (currentQuestionIndex === QUIZ_DATA.length - 1) {
+                nextBtn.textContent = 'Show Results 🏆';
+            } else {
+                nextBtn.textContent = 'Next ➔';
+            }
+            nextBtn.style.display = 'block';
+        }
+
+        // Chuyển sang câu tiếp theo hoặc màn hình kết quả
+        function handleNextQuestion() {
+            sound.playClick();
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < QUIZ_DATA.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Hiển thị màn hình Kết quả
+        function showResults() {
+            // Cập nhật thanh tiến trình đầy 100%
+            progressBar.style.width = '100%';
+
+            showScreen(resultsScreen);
+
+            finalScore.textContent = `${score} / 150 Điểm`;
+            statCorrect.textContent = `✅ ĐÚNG: ${correctAnswersCount}`;
+            statWrong.textContent = `❌ SAI: ${wrongAnswersCount}`;
+
+            // Đánh giá dựa trên thang điểm
+            if (score >= 110) {
+                evaluationText.textContent = "Excellent! You are a master of healthy living word matching!";
+                sound.playFanfare();
+                triggerParticles(canvas.width / 2, canvas.height / 3, 70); // Bắn nhiều hạt ăn mừng
+            } else if (score >= 90) {
+                evaluationText.textContent = "Great job! You are really good at word matching!";
+                sound.playFanfare();
+                triggerParticles(canvas.width / 2, canvas.height / 3, 40);
+            } else if (score >= 70) {
+                evaluationText.textContent = "Not bad! Let's practice a bit more!";
+            } else {
+                evaluationText.textContent = "Keep trying! Play again to conquer the challenge!";
+            }
+        }
+
+        // Lắng nghe sự kiện click trên các nút bấm
+        startBtn.addEventListener('click', startGame);
+        nextBtn.addEventListener('click', handleNextQuestion);
+        playAgainBtn.addEventListener('click', startGame);
+
+        // Nút Bật/Tắt Âm thanh
+        toggleAudioBtn.addEventListener('click', () => {
+            const isMuted = sound.toggleMute();
+            toggleAudioBtn.textContent = isMuted ? '🔇' : '🔊';
+        });
+
+        // Đảm bảo kích thước Canvas luôn chính xác khi mở
+        window.onload = () => {
+            resizeCanvas();
+        };
+    </script>
+</body>
+</html>
